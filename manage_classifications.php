@@ -7,44 +7,21 @@ Version: 1.0.0
 Author: Alessandro Gubitosi
 Author URI: http://iod.io
 */
-/**
- * Admin menu
- */
-function graduatorie__custom_post() {
-    register_post_type("graduatorie",
-        array(
-            "labels" => array(
-                "name"                  => "Graduatorie",
-                "singular_name"         => "Graduatoria",
-                "all_items"             => "Tutte le graduatorie",
-                "add_new"               => "Aggiungi nuova",
-                "add_new_item"          => "Aggiungi nuova graduatoria",
-                "edit_item"             => "Modifica graduatoria",
-                "new_item"              => "Nuova graduatoria",
-                "view_item"             => "Visualizza graduatorie",
-                "search_items"          => "Cerca graduatoria",
-                "not_found"             => "Nessuna graduatoria trovata",
-                "not_found_in_trash"    => "Nessuna graduatoria trovata nel cestino",
-                "parent_item_colon"     => ""
-            ),
-            "description" => "Graduatorie di partecipazione alla Rete dell'Associazione",
-            "public" => true,
-            "publicly_queryable" => true,
-            "exclude_from_search" => true,
-            "show_ui" => true,
-            "query_var" => true,
-            "menu_position" => 20,
-            "menu_icon" => "dashicons-chart-bar", // https://developer.wordpress.org/resource/dashicons/
-            "rewrite"   => array("slug" => "graduatoria", "with_front" => false),
-            "has_archive" => "false",
-            "capability_type" => "post",
-            "hierarchical" => false,
-            "supports" => array("excerpt", "editor", "author", "thumbnail", "excerpt", "trackbacks", "custom-fields", "comments", "revisions", "sticky")
-        )
-    );
-    flush_rewrite_rules();
+
+define("PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
+define("PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
+
+if(!class_exists("WP_List_Table")) {
+	require_once(ABSPATH . "wp-admin/includes/class-wp-list-table.php");
 }
-add_action("init", "graduatorie__custom_post" );
 
+require_once("lib/classes/Classification_List.php");
+require_once("lib/classes/RSF_Graduatorie.php");
 
+add_action(
+    "plugins_loaded",
+    function () {
+        RSF_Graduatorie::get_instance();
+    }
+);
 ?>

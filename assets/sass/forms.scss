@@ -1,0 +1,73 @@
+@import "colours";
+@import "input_range";
+
+.dropdown-content {
+    li:not(.disabled) {
+        a, span {
+            background-color: $deep-orange-lighten-2 !important;
+            color: $white !important;
+        }
+    }
+}
+.input-field {
+    /* label color */
+    label {
+        color: $grey-dark;
+        width: 100%;
+    }
+    /* label focus color */
+    input[type=text]:focus + label,
+    input[type=number]:focus + label,
+    input[type="range"],
+    textarea.materialize-textarea:focus + label {
+        color: $deep-orange;
+    }
+    input[type="range"] {
+        & + .thumb {
+            background-color: $deep-orange;
+        }
+    }
+    /* label underline focus color */
+    input[type=text]:focus,
+    input[type=number]:focus,
+    textarea.materialize-textarea:focus {
+        border-bottom: 1px solid $deep-orange;
+        box-shadow: 0 1px 0 0 $white;
+    }
+    /* valid color */
+    // input[type=text].valid {
+    //     border-bottom: 1px solid $grey-dark;
+    //     box-shadow: 0 1px 0 0 $grey-dark;
+    // }
+    /* invalid color */
+    // input[type=text].invalid {
+    //     border-bottom: 1px solid $grey-dark;
+    //     box-shadow: 0 1px 0 0 $grey-dark;
+    // }
+    /* icon prefix focus color */
+    .prefix.active {
+        color: $grey-dark;
+    }
+}
+label {
+    color: $grey-darken-1;
+
+    // &.active {
+    //     color: $deep-orange !important;
+    // }
+    &.required {
+        span {
+            color: $dark-red !important;
+        }
+    }
+}
+input {
+    &.picker__input--active {
+        border-bottom: 1px solid $deep-orange !important;
+    }
+}
+.mail {
+    img {
+        vertical-align: text-bottom;
+    }
+}
