@@ -11,12 +11,13 @@ if(isset($_POST) && count($_POST) > 0) {
     $digital_divide_score = preg_replace("/[^\d]+/", "", $_POST["digital_divide_score"]);
     $technical_score = preg_replace("/[^\d]+/", "", $_POST["technical_score"]);
 
-    $insert = "INSERT INTO rsf_classifications(member_id, digital_divide_score, technical_score) VALUES(:member_id, :digital_divide_score, :technical_score)";
+    $insert = "INSERT INTO rsf_classifications(member_id, digital_divide_score, technical_score, total_score) VALUES(:member_id, :digital_divide_score, :technical_score, :total_score)";
     $stmt_insert = $pdo->prepare($insert);
     $stmt_insert->execute(array(
         "member_id" => $user_id,
         "digital_divide_score" => $digital_divide_score,
-        "technical_score" => $technical_score
+        "technical_score" => $technical_score,
+        "total_score" => ($digital_divide_score + $technical_score)
     ));
 
     $update = "UPDATE `rsf_members` SET `evaluated` = :evaluated WHERE `id` = :id";
@@ -91,7 +92,7 @@ if(isset($_POST) && count($_POST) > 0) {
     } else {
         ?>
         <p class="flow-text valign-wrapper">
-            <span class="fa fa-fw fa-2x fa-clock-o grey-te"></span> <?php print __("Nessun utente ha ancora fatto richiesta di entrare a far parte della Rete."); ?>
+            <span class="fa fa-fw fa-2x fa-clock-o grey-text"></span> <?php print __("Nessun utente ha ancora fatto richiesta di entrare a far parte della Rete."); ?>
         </p>
         <br />
         <br />

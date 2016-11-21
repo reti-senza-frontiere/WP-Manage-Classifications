@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Gestione graduatorie
+Plugin Name: RSF Gestione graduatorie
 Plugin URI:
 Description: Gestisce le graduatorie per la partecipazione alla Rete dell"Associazione
 Version: 1.0.0

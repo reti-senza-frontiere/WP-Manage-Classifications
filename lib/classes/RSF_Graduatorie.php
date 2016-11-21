@@ -102,7 +102,7 @@ class RSF_Graduatorie {
 	 * Plugin home page
 	 */
 	public function plugin_add_new_page() {
-		require_once(PLUGIN_DIR_PATH . "/templates/add.php");
+		require_once(PLUGIN_DIR_PATH . "/templates/evaluate.php");
 	}
 
 	/**
