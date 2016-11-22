@@ -10,8 +10,8 @@ class RSF_Graduatorie {
 	public function __construct() {
 		add_filter("set-screen-option", [__CLASS__, "set_screen"], 10, 3);
 		add_action("admin_menu", [$this, "plugin_menu"]);
-		add_action("init", [$this, "admin_styles"]);
-		add_action("init", [$this, "admin_scripts"]);
+		add_action("admin_enqueue_scripts", [$this, "admin_styles"]);
+		add_action("admin_enqueue_scripts", [$this, "admin_scripts"]);
 	}
 
 
@@ -20,41 +20,57 @@ class RSF_Graduatorie {
 	}
 
     /**
-     * Load custom css
+     * Load custom CSS
      */
     function admin_styles(){
-		//google fonts
-		$query_args = array(
-			"family" => "Roboto:400,700,900"
+		$graduatorie_pages = array(
+			"graduatorie",
+			"new-graduatoria"
 		);
-		$google_fonts = wp_enqueue_style("google-fonts", add_query_arg($query_args, "//fonts.googleapis.com/css"), array(), null);
-		add_action("load-" . $google_fonts, [$this, "screen_option"]);
-		$font_awesome = wp_enqueue_style("font-awesome", get_template_directory_uri_packs() . "/font-awesome/css/font-awesome.min.css", array(), null);
-        add_action("load-" . $font_awesome, [$this, "screen_option"]);
-        if(isset($_GET["page"]) && in_array($_GET["page"], array("graduatorie", "new-graduatoria"))) {
-            $materialize = wp_enqueue_style("materialize", get_template_directory_uri_packs() . "/materialize/dist/css/materialize.min.css", array(), null);
-            add_action("load-" . $materialize, [$this, "screen_option"]);
-        } else {
-            $bootstrap = wp_enqueue_style("bootstrap", get_template_directory_uri_packs() . "/bootstrap/dist/css/bootstrap.min.css", array(), null);
-            add_action("load-" . $bootstrap, [$this, "screen_option"]);
-        }
-		$main = wp_enqueue_style("rsf_styles", PLUGIN_DIR_URL . "/assets/css/main.css");
-        add_action("load-" . $main, [$this, "screen_option"]);
+		$is_graduatorie_page = ((isset($_GET["page"]) && in_array($_GET["page"], $graduatorie_pages) === true) ? true : false);
+		print $is_graduatorie_page;
+		if(is_admin() && $is_graduatorie_page) {
+			//google fonts
+			$query_args = array(
+				"family" => "Roboto:400,700,900"
+			);
+			$google_fonts = wp_enqueue_style("google-fonts", add_query_arg($query_args, "//fonts.googleapis.com/css"), array(), null);
+			add_action("load-" . $google_fonts, [$this, "screen_option"]);
+			$font_awesome = wp_enqueue_style("font-awesome", get_template_directory_uri_packs() . "/font-awesome/css/font-awesome.min.css", array(), null);
+	        add_action("load-" . $font_awesome, [$this, "screen_option"]);
+	        if(isset($_GET["page"]) && in_array($_GET["page"], array("graduatorie", "new-graduatoria"))) {
+	            $materialize = wp_enqueue_style("materialize", get_template_directory_uri_packs() . "/materialize/dist/css/materialize.min.css", array(), null);
+	            add_action("load-" . $materialize, [$this, "screen_option"]);
+	        } else {
+	            $bootstrap = wp_enqueue_style("bootstrap", get_template_directory_uri_packs() . "/bootstrap/dist/css/bootstrap.min.css", array(), null);
+	            add_action("load-" . $bootstrap, [$this, "screen_option"]);
+	        }
+			$main = wp_enqueue_style("rsf_styles", PLUGIN_DIR_URL . "/assets/css/main.css");
+	        add_action("load-" . $main, [$this, "screen_option"]);
+		}
     }
 
     /**
-     * Load custom javascript
+     * Load custom Javascript
      */
     function admin_scripts() {
-        if(isset($_GET["page"]) && in_array($_GET["page"], array("graduatorie", "new-graduatoria"))) {
-            $materialize = wp_enqueue_script("materialize", get_template_directory_uri_packs() . "/materialize/dist/js/materialize.min.js", array(), null, true);
-            add_action("load-" . $materialize, [$this, "screen_option"]);
-        } else {
-            $bootstrap = wp_enqueue_script("bootstrap", get_template_directory_uri_packs() . "/bootstrap/dist/js/bootstrap.min.js", array(), null, true);
-            add_action("load-" . $bootstrap, [$this, "screen_option"]);
-        }
-		$main = wp_enqueue_script("main", PLUGIN_DIR_URL . "/assets/js/main.js", array(), null, true);
-        add_action("load-" . $main, [$this, "screen_option"]);
+		$graduatorie_pages = array(
+			"graduatorie",
+			"new-graduatoria"
+		);
+		$is_graduatorie_page = ((isset($_GET["page"]) && in_array($_GET["page"], $graduatorie_pages) === true) ? true : false);
+		print $is_graduatorie_page;
+		if(is_admin() && $is_graduatorie_page) {
+	        if(isset($_GET["page"]) && in_array($_GET["page"], array("graduatorie", "new-graduatoria"))) {
+	            $materialize = wp_enqueue_script("materialize", get_template_directory_uri_packs() . "/materialize/dist/js/materialize.min.js", array(), null, true);
+	            add_action("load-" . $materialize, [$this, "screen_option"]);
+	        } else {
+	            $bootstrap = wp_enqueue_script("bootstrap", get_template_directory_uri_packs() . "/bootstrap/dist/js/bootstrap.min.js", array(), null, true);
+	            add_action("load-" . $bootstrap, [$this, "screen_option"]);
+	        }
+			$main = wp_enqueue_script("main", PLUGIN_DIR_URL . "/assets/js/main.js", array(), null, true);
+	        add_action("load-" . $main, [$this, "screen_option"]);
+		}
     }
 
 	/**
